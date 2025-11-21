@@ -73,7 +73,7 @@ docker logs acme-companion | tail
 ### PostgreSQL
 
 ``` bash
-docker exec -it db_postgres psql -U odoo -c "SELECT now();"
+docker exec -it db_postgres psql -U odoo -d postgres
 ```
 
 ### MySQL
