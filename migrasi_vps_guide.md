@@ -102,3 +102,45 @@ apt install docker-compose-plugin -y
 mkdir -p /opt/odoo_stack
 echo "Selesai! VPS siap restore backup."
 ```
+
+# UFW Firewall Rules – Migrasi VPS
+
+Konfigurasi berikut menyalin firewall dari VPS lama ke VPS baru (IPv4 & IPv6).
+
+## 1. Allow Ports
+
+```bash
+sudo ufw allow 22/tcp
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 993/tcp
+sudo ufw allow 143/tcp
+sudo ufw allow 2222/tcp
+```
+
+## 2. Allow Ports
+```bash
+sudo ufw deny 9443/tcp
+```
+
+## 3. Pastikan IPv6 UFW Aktif
+```bash
+sudo nano /etc/ufw/ufw.conf
+```
+Isi harus seperti ini:
+```bash
+IPV6=yes
+```
+## 4. Enable / Reload UFW
+```bash
+sudo ufw enable
+# jika sudah aktif:
+sudo ufw reload
+```
+
+## 4. Cek Status Firewall
+```bash
+sudo ufw status numbered
+
+```
