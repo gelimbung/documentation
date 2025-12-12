@@ -144,3 +144,11 @@ sudo ufw reload
 sudo ufw status numbered
 
 ```
+
+# Sintaks Penting
+
+Beberapa sintaks penting untuk troubleshoot
+## 1. Masuk ke bash container
+```bash
+docker exec -it <nama_container atau id_container> bash
+
