@@ -192,3 +192,8 @@ _Tidak pakai -C → otomatis extract di folder tempat kamu berdiri sekarang_
 ```bash
 docker logs --tail 100 -f odoo
 ```
+
+## 5. Copy file dari host ke container docker
+```bash
+docker cp odoo.conf odoo:/etc/odoo/odoo.conf
+```
