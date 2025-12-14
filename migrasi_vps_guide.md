@@ -145,7 +145,7 @@ sudo ufw status numbered
 
 ```
 
-# Sintaks Penting
+# Sintaks Penting Selama konfigurasi
 
 Beberapa sintaks penting untuk troubleshoot
 ## 1. Masuk ke bash container
@@ -165,3 +165,12 @@ Hapus database
 ```bash
 docker exec -it db_postgres dropdb -U postgres odoo17_prod
 ```
+Extract Tar folder tertentu
+```bash
+tar -xvzf file.tar.gz -C /opt/odoo17
+```
+📌 Penjelasan opsi
+x → extract
+v → verbose (tampilkan proses)\
+z → gzip (.gz)
+f → file
