@@ -174,3 +174,5 @@ tar -xvzf file.tar.gz -C /opt/odoo17
 1. `v` → verbose  
 1. `z` → gzip  
 1. `f` → file
+
+_Tidak pakai -C → otomatis extract di folder tempat kamu berdiri sekarang_
