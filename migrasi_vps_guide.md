@@ -151,4 +151,13 @@ Beberapa sintaks penting untuk troubleshoot
 ## 1. Masuk ke bash container
 ```bash
 docker exec -it <nama_container atau id_container> bash
-
+```
+## 2. Restore pg_dump
+Jika database BELUM ADA
+```bash
+docker exec -it postgres createdb -U postgres nama_db
+```
+Lalu restore
+```bash
+docker exec -i postgres pg_restore -U postgres -d nama_db  < backup.dump
+```
