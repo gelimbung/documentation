@@ -149,9 +149,15 @@ sudo ufw status numbered
 
 Beberapa sintaks penting untuk troubleshoot
 ## 1. Masuk ke bash container
+not root
 ```bash
 docker exec -it <nama_container atau id_container> bash
 ```
+root
+```bash
+docker exec -u 0 -it <odoo-container> bash
+```
+
 ## 2. Restore pg_dump
 Jika database BELUM ADA
 ```bash
