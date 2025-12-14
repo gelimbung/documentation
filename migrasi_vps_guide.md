@@ -170,7 +170,7 @@ Extract Tar folder tertentu
 tar -xvzf file.tar.gz -C /opt/odoo17
 ```
 📌 Penjelasan opsi
-x → extract
-v → verbose (tampilkan proses)\
-z → gzip (.gz)
-f → file
+1. `x` → extract  
+1. `v` → verbose  
+1. `z` → gzip  
+1. `f` → file
