@@ -155,9 +155,13 @@ docker exec -it <nama_container atau id_container> bash
 ## 2. Restore pg_dump
 Jika database BELUM ADA
 ```bash
-docker exec -it postgres createdb -U postgres nama_db
+docker exec -it db_postgres createdb -U postgres odoo17_prod
 ```
 Lalu restore
 ```bash
-docker exec -i postgres pg_restore -U postgres --no-owner --no-privileges -d nama_db  < backup.dump
+docker exec -i db_postgres pg_restore -U postgres --no-owner --no-privileges -d odoo17_prod  < backup.dump
+```
+Hapus database 
+```bash
+docker exec -it db_postgres dropdb -U postgres odoo17_prod
 ```
