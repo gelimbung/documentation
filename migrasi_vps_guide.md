@@ -165,9 +165,14 @@ Hapus database
 ```bash
 docker exec -it db_postgres dropdb -U postgres odoo17_prod
 ```
-Extract Tar folder tertentu
+## 3. Extract Tar 
+####folder tertentu
 ```bash
-tar -xvzf file.tar.gz -C /opt/odoo17
+tar -xvzf file.tar.gz -C /opt/odoo///17
+```
+####folder here
+```bash
+folder tertentu
 ```
 📌 Penjelasan opsi
 1. `x` → extract  
