@@ -168,11 +168,11 @@ docker exec -it db_postgres dropdb -U postgres odoo17_prod
 ## 3. Extract Tar 
 folder tertentu
 ```bash
-tar -xvzf file.tar.gz -C /opt/odoo///17
+tar -xvzf file.tar.gz -C /opt/odoo17
 ```
 folder here
 ```bash
-folder tertentu
+tar -xvzf file.tar.gz
 ```
 📌 Penjelasan opsi
 1. `x` → extract  
