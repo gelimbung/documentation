@@ -159,5 +159,5 @@ docker exec -it postgres createdb -U postgres nama_db
 ```
 Lalu restore
 ```bash
-docker exec -i postgres pg_restore -U postgres -d nama_db  < backup.dump
+docker exec -i postgres pg_restore -U postgres --no-owner --no-privileges -d nama_db  < backup.dump
 ```
