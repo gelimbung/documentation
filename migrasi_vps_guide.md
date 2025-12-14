@@ -181,3 +181,8 @@ tar -xvzf file.tar.gz
 1. `f` → file
 
 _Tidak pakai -C → otomatis extract di folder tempat kamu berdiri sekarang_
+
+## 4. Log container 
+```bash
+docker logs --tail 100 -f odoo
+```
