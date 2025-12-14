@@ -152,7 +152,7 @@ Beberapa sintaks penting untuk troubleshoot
 ```bash
 docker exec -it <nama_container atau id_container> bash
 ```
-## 2. Restore pg_dump
+## 1. Restore pg_dump
 Jika database BELUM ADA
 ```bash
 docker exec -it db_postgres createdb -U postgres odoo17_prod
