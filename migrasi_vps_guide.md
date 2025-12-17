@@ -197,3 +197,7 @@ docker logs --tail 100 -f odoo
 ```bash
 docker cp odoo.conf odoo:/etc/odoo/odoo.conf
 ```
+## 6. Recreate container Odoo supaya env baru kepakai
+```bash
+docker compose up -d --force-recreate odoo17-jumuah odoo17-sadean
+```
