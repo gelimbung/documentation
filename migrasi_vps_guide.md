@@ -158,7 +158,13 @@ root
 docker exec -u 0 -it <odoo-container> bash
 ```
 
-## 2. Restore pg_dump
+## 2. Backup & Restore pg_dump
+Backup Database 
+```bash
+cd /tmp
+sudo -u postgres pg_dump -Fc --no-owner --no-privileges nama_db > /tmp/nama_db.dump
+```
+Restore Database
 Jika database BELUM ADA
 ```bash
 docker exec -it db_postgres createdb -U postgres odoo17_prod
