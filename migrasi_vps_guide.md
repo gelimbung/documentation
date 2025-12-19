@@ -208,7 +208,7 @@ docker cp odoo.conf odoo:/etc/odoo/odoo.conf
 docker compose up -d --force-recreate odoo17-jumuah odoo17-sadean
 ```
 
-Cek Odoo dari DALAM container nginx-proxy
+## 7. Cek Odoo dari DALAM container nginx-proxy
 ```bash
 docker exec -it nginx-proxy curl -I http://odoo18-sadean:8069
 docker exec -it nginx-proxy curl -I http://odoo17-jumuah:8069
