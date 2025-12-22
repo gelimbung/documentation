@@ -165,7 +165,7 @@ cd /tmp
 sudo -u postgres pg_dump -Fc --no-owner --no-privileges nama_db > /tmp/nama_db.dump
 ```
 Restore Database
-Jika database BELUM ADA
+Create DB Jika database BELUM ADA
 ```bash
 docker exec -it db_postgres createdb -U postgres odoo17_prod
 ```
