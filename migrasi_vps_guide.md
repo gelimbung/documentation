@@ -158,7 +158,7 @@ root
 docker exec -u 0 -it <odoo-container> bash
 ```
 
-## 2. Backup & Restore pg_dump
+## 2. Backup & Restore pg_dump dan filestore
 Backup Database 
 ```bash
 cd /tmp
@@ -177,6 +177,15 @@ Hapus database
 ```bash
 docker exec -it db_postgres dropdb -U postgres odoo17_prod
 ```
+Backup filestore
+Path Location
+```bash
+/var/lib/odoo/.local/share/Odoo/filestore/
+```
+```bash
+tar -czvf filestore_nama_db.tar.gz filestore/nama_database
+```
+
 ## 3. Extract Tar 
 folder tertentu
 ```bash
