@@ -1,7 +1,7 @@
 # Panduan Backup Database Odoo dan Filestores
 ## 1.Backup Database Odoo (pg_dump)
 ```bash
-pg_dump -U odoo -h localhost -p 5432 nama_database > odoo_backup.sql
+pg_dump -U odoo -h localhost -p 5432 -F c -b -v -f odoo_backup.dump nama_database
 ```
 ## 2.Backup Filestore
 Lokasi Filestore
