@@ -3,7 +3,7 @@
 ```bash
 pg_dump -U odoo -h localhost -p 5432 nama_database > odoo_backup.sql
 ```
-## 1.Backup Filestore
+## 2.Backup Filestore
 Lokasi Filestore
 ```bash
 tar -czvf filestore_nama_db.tar.gz filestore/nama_database
