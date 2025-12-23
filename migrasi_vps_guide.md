@@ -178,6 +178,9 @@ Hapus database
 docker exec -it db_postgres dropdb -U postgres odoo17_prod
 ```
 ❌ Jika tidak bisa dihapus
+```bash
+docker exec -it db_postgres psql -U postgres
+```
 Cek session aktif
 ```bash
 SELECT pid, usename, application_name, client_addr, state
