@@ -177,6 +177,21 @@ Hapus database
 ```bash
 docker exec -it db_postgres dropdb -U postgres odoo17_prod
 ```
+❌ Jika tidak bisa dihapus
+Cek session aktif
+```bash
+SELECT pid, usename, application_name, client_addr, state
+FROM pg_stat_activity
+WHERE datname = 'odoo_prod';
+```
+Kill session aktif
+```bash
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'odoo_prod'
+  AND pid <> pg_backend_pid();
+```
+
 Backup filestore
 Path Location
 ```bash
