@@ -250,3 +250,36 @@ atau
 HTTP/1.1 303 SEE OTHER
 ```
 
+## 8. Error karena package python tidak lengkap di Container
+Buat file `Dockerfile` satu folder dengan `docker-compose.yml` 
+```bash
+#Dockerfile
+FROM odoo:18
+
+USER root
+
+# Pastikan pip ada + install qifparse (PEP668 fix)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends python3-pip \
+ && python3 -m pip install --no-cache-dir --break-system-packages qifparse \
+ && apt-get purge -y python3-pip \
+ && apt-get autoremove -y \
+ && rm -rf /var/lib/apt/lists/*
+
+USER odoo
+```
+Update docker-compose.yml, tambahkan sintax `build: . `
+```bash
+services:
+  odoo:
+    build:
+      context: .
+      dockerfile: Dockerfile.odoo
+
+```
+Build ulang
+```bash
+docker compose build --no-cache
+docker compose up -d
+```
+
