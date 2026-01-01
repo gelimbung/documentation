@@ -284,10 +284,10 @@ docker compose up -d
 ```
 
 ## 9. Error setelah ganti domain
-#### Langkahnya: 
-1. Ganti VIRTUAL_HOST + LETSENCRYPT_HOST -> .env file
-2. docker compose down
-3. hapus cert domain lama
+### Langkahnya: 
+#### 1. Ganti VIRTUAL_HOST + LETSENCRYPT_HOST -> .env file
+#### 2. docker compose down
+#### 3. hapus cert domain lama
 Hapus sertifikat domain lama di volume odoo_stack_nginx_certs
 Ganti domainlama.com dengan domain yang lama (yang mau dibuang):
 ```bash
@@ -301,12 +301,12 @@ docker run --rm -v odoo_stack_nginx_certs:/certs alpine sh -c "rm -rf /certs/www
 ```bash
 docker run --rm -v odoo_stack_nginx_certs:/certs alpine sh -c "ls -lah /certs"
 ```
-4. docker compose up -d --force-recreate
+#### 4. docker compose up -d --force-recreate
 ```bash
 docker compose down
 docker compose up -d --force-recreate
 ```
-5. cek log letsencrypt
+#### 5. cek log letsencrypt
 Nama containernya bisa beda-beda (mis. nginx-proxy-acme, letsencrypt, acme-companion). Cek yang jalan:
 ```bash
 docker ps --format "table {{.Names}}\t{{.Image}}"
