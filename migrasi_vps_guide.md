@@ -283,3 +283,35 @@ docker compose build --no-cache
 docker compose up -d
 ```
 
+## 9. Error setelah ganti domain
+### Langkahnya: 
+1. Ganti VIRTUAL_HOST + LETSENCRYPT_HOST -> .env file
+2. docker compose down
+3. hapus cert domain lama
+Hapus sertifikat domain lama di volume odoo_stack_nginx_certs
+Ganti domainlama.com dengan domain yang lama (yang mau dibuang):
+```bash
+docker run --rm -v odoo_stack_nginx_certs:/certs alpine sh -c "ls -lah /certs && rm -rf /certs/domainlama.com*"
+```
+Kalau domain lama ada wildcard / subdomain (mis. www.domainlama.com), hapus juga:
+```bash
+docker run --rm -v odoo_stack_nginx_certs:/certs alpine sh -c "rm -rf /certs/www.domainlama.com*"
+```
+#### Cek lagi isi folder cert:
+```bash
+docker run --rm -v odoo_stack_nginx_certs:/certs alpine sh -c "ls -lah /certs"
+```
+4. docker compose up -d --force-recreate
+```bash
+docker compose down
+docker compose up -d --force-recreate
+```
+5. cek log letsencrypt
+Nama containernya bisa beda-beda (mis. nginx-proxy-acme, letsencrypt, acme-companion). Cek yang jalan:
+```bash
+docker ps --format "table {{.Names}}\t{{.Image}}"
+```
+Lalu tail log container ACME (contoh, ganti NAMA_ACME_CONTAINER):
+```bash
+docker logs -f NAMA_ACME_CONTAINER
+```
