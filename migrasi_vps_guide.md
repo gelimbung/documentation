@@ -284,7 +284,7 @@ docker compose up -d
 ```
 
 ## 9. Error setelah ganti domain
-### Langkahnya: 
+#### Langkahnya: 
 1. Ganti VIRTUAL_HOST + LETSENCRYPT_HOST -> .env file
 2. docker compose down
 3. hapus cert domain lama
