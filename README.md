@@ -1,2 +1,2 @@
 # documentation
-token mac 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
+token mac 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
