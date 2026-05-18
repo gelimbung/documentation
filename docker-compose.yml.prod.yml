@@ -1,0 +1,283 @@
+services:
+  # Reverse proxy otomatis + SSL
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:alpine
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TRUST_DOWNSTREAM_PROXY=true
+    volumes:
+      - nginx_certs:/etc/nginx/certs:ro
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks: [webnet]
+    restart: always
+
+  acme-companion:
+    image: nginxproxy/acme-companion:2.4
+    container_name: acme-companion
+    environment:
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      - nginx_certs:/etc/nginx/certs
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on: [nginx-proxy]
+    networks: [webnet]
+    restart: always
+
+  # Database Odoo
+  db_postgres:
+    image: postgres:16
+    container_name: db_postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - TZ=${TZ}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks: [webnet]
+    restart: always
+
+# Odoo 18 (sadean))
+  odoo18-sadean:
+    image: odoo:18.0
+    build: . 
+    container_name: odoo18-sadean
+    depends_on: [db_postgres]
+    environment:
+      - HOST=${ODOO_DB_HOST}
+      - PORT=${ODOO_DB_PORT}
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+      - TZ=${TZ}
+      # Reverse proxy + SSL
+      - VIRTUAL_HOST=${DOMAIN_ROOT_SADEAN}
+      - LETSENCRYPT_HOST=${DOMAIN_ROOT_SADEAN}
+      - VIRTUAL_PORT=8069
+    volumes:
+      - ./data/odoo18:/var/lib/odoo
+      - ./addons-local-18:/mnt/extra-addons
+      - ./data/config/odoo18-sadean:/etc/odoo/
+    networks: 
+      webnet:
+        aliases: [odoo18-sadean]
+    restart: always
+
+  # Odoo 18 (community)
+  odoo18-jumuah:
+    image: odoo:18.0
+    container_name: odoo18-jumuah
+    depends_on: [db_postgres]
+    environment:
+      - HOST=${ODOO_DB_HOST}
+      - PORT=${ODOO_DB_PORT}
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+      - TZ=${TZ}
+      # Reverse proxy + SSL
+      - VIRTUAL_HOST=${DOMAIN_ODOO18_JUMUAH}
+      - LETSENCRYPT_HOST=${DOMAIN_ODOO18_JUMUAH}
+      - VIRTUAL_PORT=8069
+      - HTTPS_METHOD=redirect
+      - PROXY_MODE=True
+    volumes:
+      - ./data/odoo18:/var/lib/odoo
+      - ./addons-local-18:/mnt/extra-addons
+      - ./data/config/odoo18-jumuah:/etc/odoo/
+    #command: >
+     # odoo
+      #-c /etc/odoo/odoo.conf
+     # --database=odoo18_prod_17
+     # --upgrade-path=/mnt/extra-addons2/openupgrade_scripts/scripts
+     # --update=all
+     # --stop-after-init
+     # --load=base,web,openupgrade_framework
+    #build:
+      #context: /opt/odoo_stack
+      #dockerfile: Dockerfile
+    build: .
+    networks: 
+      webnet:
+        aliases: [odoo18-jumuah]
+    restart: always
+
+   # Odoo 18 (community)
+  odoo18-jumuah-erp:
+    image: odoo:18.0
+    container_name: odoo18-jumuah-erp
+    depends_on: [db_postgres]
+    environment:
+      - HOST=${ODOO_DB_HOST}
+      - PORT=${ODOO_DB_PORT}
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+      - TZ=${TZ}
+      # Reverse proxy + SSL
+      - VIRTUAL_HOST=${DOMAIN_ODOO18_JUMUAH_ERP}
+      - LETSENCRYPT_HOST=${DOMAIN_ODOO18_JUMUAH_ERP}
+      - VIRTUAL_PORT=8069
+      - HTTPS_METHOD=redirect
+      - PROXY_MODE=True
+    volumes:
+      - ./data/odoo18:/var/lib/odoo
+      - ./addons-local-18:/mnt/extra-addons
+      - ./data/config/odoo18-jumuah-erp:/etc/odoo/
+    #command: >
+     # odoo
+      #-c /etc/odoo/odoo.conf
+     # --database=odoo18_prod_17
+     # --upgrade-path=/mnt/extra-addons2/openupgrade_scripts/scripts
+     # --update=all
+     # --stop-after-init
+     # --load=base,web,openupgrade_framework
+    #build:
+      #context: /opt/odoo_stack
+      #dockerfile: Dockerfile
+    build: .
+    networks: 
+      webnet:
+        aliases: [odoo18-jumuah-erp]
+    restart: always
+
+  # Odoo 17 (OLD) – pakai DOMAIN_ODOO_OLD = old.tokojumuah.my.id
+  odoo17-jumuah:
+    image: odoo:17.0
+    container_name: odoo17-jumuah
+    depends_on: [db_postgres]
+    environment:
+      - HOST=${ODOO_DB_HOST}
+      - PORT=${ODOO_DB_PORT}
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+      - TZ=${TZ}
+      # Reverse proxy + SSL
+      - VIRTUAL_HOST=${DOMAIN_ODOO17_JUMUAH}
+      - LETSENCRYPT_HOST=${DOMAIN_ODOO17_JUMUAH}
+      - VIRTUAL_PORT=8069
+    volumes:
+      - ./data/odoo17:/var/lib/odoo
+      - ./addons-local-17:/mnt/extra-addons
+      - ./data/config/odoo17-jumuah:/etc/odoo/
+    networks:
+      webnet:
+        aliases: [odoo17-jumuah]
+
+    restart: "no"
+
+  # Database untuk aplikasi PHP
+  mysql:
+    image: mysql:8.4.7
+    container_name: mysql
+    #command: --default-authentication-plugin=caching_sha2_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=${TZ}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks: [webnet]
+    restart: always
+
+  # Web PHP sederhana (nginx+php-fpm dalam 1 image)
+  phpapp:
+    image: trafex/php-nginx:latest
+    container_name: phpapp
+    environment:
+      - VIRTUAL_HOST=${DOMAIN_PHP}
+      - LETSENCRYPT_HOST=${DOMAIN_PHP}
+      - VIRTUAL_PORT=8080
+      - PHP_ERRORS_STDERR=1
+      - TZ=${TZ}
+    volumes:
+      - ./php/html:/var/www/html
+    depends_on: [mysql]
+    networks: [webnet]
+    restart: "no"
+
+  #adminer
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: always
+    expose:
+      - "8080"
+    environment:
+      - VIRTUAL_HOST=${ADMINER_DOMAIN}
+      - VIRTUAL_PORT=${ADMINER_PORT}
+      - LETSENCRYPT_HOST=${ADMINER_DOMAIN}
+      - ADMINER_DEFAULT_SERVER=mysql
+      - TZ=Asia/Jakarta
+    networks:
+      - webnet
+
+  #ekasir_sinar
+  php-ekasir:
+    image: webdevops/php-nginx:7.4
+    container_name: php-ekasir
+    environment:
+      - VIRTUAL_HOST=${DOMAIN_SINAR_EKASIR}
+      - LETSENCRYPT_HOST=${DOMAIN_SINAR_EKASIR}
+      - VIRTUAL_PORT=80
+      - TZ=${TZ}
+    volumes:
+      - ./php/sinar_ekasir:/app
+    depends_on: [mysql]
+    networks: [webnet]
+    restart: always
+
+  #web_sinar
+  php-websinar:
+    image: webdevops/php-nginx:8.1
+    container_name: php-websinar
+    environment:
+      - VIRTUAL_HOST=${DOMAIN_SINAR_ROOT}
+      - LETSENCRYPT_HOST=${DOMAIN_SINAR_ROOT}
+      - VIRTUAL_PORT=80
+      - TZ=${TZ}
+    volumes:
+      - ./php/sinar_web:/app
+    depends_on: [mysql]
+    networks: [webnet]
+    restart: always
+
+    # Laravel PHP 8.4 (Akuntansi Sadean)
+  akuntansi-sadean:
+    image: webdevops/php-nginx:8.4
+    container_name: laravel-akuntansi
+    environment:
+      - VIRTUAL_HOST=${DOMAIN_AKUNTANSI_SADEAN}
+      - LETSENCRYPT_HOST=${DOMAIN_AKUNTANSI_SADEAN}
+      - VIRTUAL_PORT=80
+      - WEB_DOCUMENT_ROOT=/app/public
+      - TZ=${TZ}
+      - PHP_UPLOAD_MAX_FILESIZE=64M
+      - PHP_POST_MAX_SIZE=64M
+      - TRUSTED_PROXIES=*
+      - APP_URL=https://${DOMAIN_AKUNTANSI_SADEAN}
+      - ASSET_URL=https://${DOMAIN_AKUNTANSI_SADEAN}
+    volumes:
+      - ./php/akuntansi_sadean:/app
+    depends_on: [db_postgres]
+    networks:
+      - webnet
+    restart: always
+
+
+networks:
+  webnet:
+    driver: bridge 
+
+volumes:
+  nginx_certs:
+  nginx_vhost:
+  nginx_html:
+  #portainer_data:

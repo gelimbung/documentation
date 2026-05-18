@@ -1,0 +1,225 @@
+services:
+  # =========================
+  # NGINX PROXY + SSL
+  # =========================
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:alpine
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TRUST_DOWNSTREAM_PROXY=true
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - webnet
+    restart: always
+
+  acme-companion:
+    image: nginxproxy/acme-companion:2.4
+    container_name: acme-companion
+    environment:
+      - DEFAULT_EMAIL=admin@${DOMAIN_ROOT_NEW}
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      - nginx_certs:/etc/nginx/certs
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - nginx-proxy
+    networks:
+      - webnet
+    restart: always
+
+  # =========================
+  # POSTGRES
+  # =========================
+  db_postgres:
+    image: postgres:16
+    container_name: db_postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - TZ=${TZ}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - webnet
+    restart: always
+
+  # =========================
+  # ODOO 18 SADEAN
+  # =========================
+  odoo18-sadean:
+    image: odoo:18.0
+    build: .
+    container_name: odoo18-sadean
+    depends_on:
+      - db_postgres
+    environment:
+      - HOST=${ODOO_DB_HOST}
+      - PORT=${ODOO_DB_PORT}
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+      - TZ=${TZ}
+      - VIRTUAL_HOST=${DOMAIN_ROOT_SADEAN}
+      - LETSENCRYPT_HOST=${DOMAIN_ROOT_SADEAN}
+      - VIRTUAL_PORT=8069
+    volumes:
+      - ./data/odoo18-sadean:/var/lib/odoo
+      - ./addons-local-18:/mnt/extra-addons
+      - ./data/config/odoo18-sadean:/etc/odoo
+    networks:
+      webnet:
+        aliases:
+          - odoo18-sadean
+    restart: no
+
+  # =========================
+  # ODOO 18 JUMUAH
+  # =========================
+  odoo18-jumuah:
+    image: odoo:18.0
+    build: .
+    container_name: odoo18-jumuah
+    depends_on:
+      - db_postgres
+    environment:
+      - HOST=${ODOO_DB_HOST}
+      - PORT=${ODOO_DB_PORT}
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+      - TZ=${TZ}
+      - VIRTUAL_HOST=${DOMAIN_ROOT_NEW}
+      - LETSENCRYPT_HOST=${DOMAIN_ROOT_NEW}
+      - VIRTUAL_PORT=8069
+      - HTTPS_METHOD=redirect
+      - PROXY_MODE=True
+    volumes:
+      - ./data/odoo18-jumuah:/var/lib/odoo
+      - ./addons-local-18:/mnt/extra-addons
+      - ./data/config/odoo18-jumuah:/etc/odoo
+    networks:
+      webnet:
+        aliases:
+          - odoo18-jumuah
+    restart: no
+
+  # =========================
+  # ODOO ERP
+  # =========================
+  odoo18-jumuah-erp:
+    image: odoo:18.0
+    build: .
+    container_name: odoo18-jumuah-erp
+    depends_on:
+      - db_postgres
+    environment:
+      - HOST=${ODOO_DB_HOST}
+      - PORT=${ODOO_DB_PORT}
+      - USER=${ODOO_DB_USER}
+      - PASSWORD=${ODOO_DB_PASSWORD}
+      - TZ=${TZ}
+      - VIRTUAL_HOST=erp.${DOMAIN_ROOT_NEW}
+      - LETSENCRYPT_HOST=erp.${DOMAIN_ROOT_NEW}
+      - VIRTUAL_PORT=8069
+      - HTTPS_METHOD=redirect
+      - PROXY_MODE=True
+    volumes:
+      - ./data/odoo18-erp:/var/lib/odoo
+      - ./addons-local-18:/mnt/extra-addons
+      - ./data/config/odoo18-jumuah-erp:/etc/odoo
+    networks:
+      webnet:
+        aliases:
+          - odoo18-jumuah-erp
+    restart: no
+
+  # =========================
+  # MYSQL
+  # =========================
+  mysql:
+    image: mysql:8.4.7
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=${TZ}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - webnet
+    restart: always
+
+  # =========================
+  # ADMINER
+  # =========================
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    expose:
+      - "8080"
+    environment:
+      - VIRTUAL_HOST=${ADMINER_DOMAIN}
+      - LETSENCRYPT_HOST=${ADMINER_DOMAIN}
+      - VIRTUAL_PORT=8080
+      - ADMINER_DEFAULT_SERVER=mysql
+      - TZ=${TZ}
+      - HTTPS_METHOD=redirect
+    networks:
+      - webnet
+    restart: always
+
+  # =========================
+  # AKUNTANSI SADEAN
+  # =========================
+  akuntansi-sadean:
+    image: webdevops/php-nginx:8.4
+    container_name: laravel-akuntansi
+    environment:
+      - VIRTUAL_HOST=${DOMAIN_AKUNTANSI}
+      - LETSENCRYPT_HOST=${DOMAIN_AKUNTANSI}
+      - VIRTUAL_PORT=80
+      - WEB_DOCUMENT_ROOT=/app/public
+      - TZ=${TZ}
+      - PHP_UPLOAD_MAX_FILESIZE=64M
+      - PHP_POST_MAX_SIZE=64M
+      - TRUSTED_PROXIES=*
+      - APP_URL=https://${DOMAIN_AKUNTANSI}
+      - ASSET_URL=https://${DOMAIN_AKUNTANSI}
+      - HTTPS_METHOD=redirect
+    volumes:
+      - ./php/akuntansi_sadean:/app
+    depends_on:
+      - db_postgres
+    networks:
+      - webnet
+    restart: always
+
+  node:
+    image: node:22-alpine
+    container_name: node
+    working_dir: /app
+    volumes:
+      - ./php/akuntansi_sadean:/app
+
+    tty: true
+    networks:
+      - webnet
+    restart: always
+
+networks:
+  webnet:
+    driver: bridge
+
+volumes:
+  nginx_certs:
+  nginx_html:
