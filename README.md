@@ -13,3 +13,7 @@ ssh root@202.155.95.201 -p 2222
 #username: a49769@msdn365.vip
 #password: bismiLL4h100
 ```
+## AI API GROQ
+```
+https://console.groq.com/keys
+```
