@@ -10,8 +10,13 @@ ssh root@202.155.95.201 -p 2222
 
 ## Office 356
 ```bash
-#username: a49769@msdn365.vip
+#username:a49769@msdn365.vip
+#password:bismiLL4h100
+
+#username:rifki.copilot@officeoriku.com
 #password: bismiLL4h100
+
+#username: rifki.copilot@orioffice365.com
 ```
 ## AI API GROQ
 ```
