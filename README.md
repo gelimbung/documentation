@@ -21,7 +21,7 @@ ssh root@202.155.95.201 -p 2222
 ## AI API GROQ
 ```
 https://console.groq.com/keys
-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
+Bearer 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
 ```
 
 
