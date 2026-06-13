@@ -37,7 +37,12 @@ EAAYXZAwSXsvgBRpg7jkUVOVga2Ufh6hdqK4IvojfM1OCs0F0bylwZBAdBWrFc9DCtX7iU1kDjH1iv4P
 ```
 https://business.facebook.com
 ```
-## SHOPEE
+## SHOPEE & TIKTOK OPEN PLATFORM
 ```
 https://open.shopee.com/console/app
+u:gelimbung@gmail.com
+##
+https://partner.tiktokshop.com/
+u: gelimbung@gmail.com
+p: vps
 ```
