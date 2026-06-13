@@ -37,3 +37,7 @@ EAAYXZAwSXsvgBRpg7jkUVOVga2Ufh6hdqK4IvojfM1OCs0F0bylwZBAdBWrFc9DCtX7iU1kDjH1iv4P
 ```
 https://business.facebook.com
 ```
+## SHOPEE
+```
+https://open.shopee.com/console/app
+```
