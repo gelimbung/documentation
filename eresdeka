@@ -5,7 +5,7 @@ CH_PORT=9000
 CH_USER=default
 CH_PASSWORD=rahasia
 CH_DBNAME=DWH_DATA
-````
+```
 
 ## DB REPORT
 ```
