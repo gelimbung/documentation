@@ -1,5 +1,12 @@
 # documentation
 
+#GPTPLUS
+```
+​j​.​a​.​c​k​.​b​.​a​k​e​r​.​3​.​1​6​.​9​1​.​1​@​g​m​a​i​l​.​c​o​m	(email)
+$j82joDghPf@07zOVt (pw)08:41
+GBAKQQBE2PVE5JPAZT46OOVJG5NN6H4P (2fa)
+```
+
 ## GIT
 password git: token mac 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
 
