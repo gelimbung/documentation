@@ -1,3 +1,9 @@
+## Satu Sehat Dashboard  
+```
+URL : https://satusehat.kemkes.go.id/platform/login
+U : sirskom@rskariadi.co.id
+P : RSdK@2025@&&
+```
 ## DWH CLICK HOUSE
 ```
 CH_HOST=172.16.1.65
