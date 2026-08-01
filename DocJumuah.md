@@ -67,26 +67,7 @@ https://partner.tiktokshop.com/
 u: gelimbung@gmail.com
 p: vps
 ```
-## QUICK REFERENCE N8N:
-```
-KakJumBOT Flow (n8n):
-├─ Webhook Incoming (Evolution API → n8n)
-├─ Validate & Format (sanitize input)
-├─ Filter Valid Message (pastiin ada phone + message)
-├─ Detect Intent (Groq llama-3.3-70b)
-├─ Extract Intent JSON (parse Groq response)
-├─ Get Session Context (Odoo API)
-├─ Merge Message + Context (combine pesan + history)
-├─ Prepare Response Data (format untuk routing)
-├─ Route by Intent (Switch: daftar_harga / stok / order / default)
-│  ├─ daftar_harga → Search Product → Generate Natural Reply
-│  ├─ stok → Search Product → Generate Natural Reply
-│  ├─ order → Save to Odoo → Generate Natural Reply
-│  └─ default → Generate Natural Reply
-├─ Send WhatsApp Reply (balik ke WA)
-└─ (Optional logging ke Odoo chatbot_logs)
-
-API Keys:
+## API Keys:
 - Odoo Chatbot API: f46c076fc034b7330958d54e154e657283d3bfc6
 - Groq API: (di Groq node, separate)
 ```
