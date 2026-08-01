@@ -1,5 +1,19 @@
 # documentation
 
+## WA ID Facebook Developer
+```
+https://developers.facebook.com/apps/1714581086384888/use_cases/customize/wa-configurations-v2/?product_route=whatsapp-business&business_id=1441191182755705&use_case_enum=WHATSAPP_BUSINESS_MESSAGING&selected_tab=wa-configurations-v2
+Business ID: 4195697917374763
+Number / Phone Number ID: 879348325261395
+```
+
+
+## WA API TOKEN
+```
+https://business.facebook.com/latest/settings/system_users?business_id=1441191182755705&selected_user_id=61590408604956
+EAAYXZAwSXsvgBSAFtjWFaNZAtX2UjHbpHI1E4upLyShB0WaBIDkGvIs1ygPlip8QneU8AxHNTrowIsQBn16G31ceIvppGQLZANQ5KwKeSEojIMMxXeH2RtARnpUwO5em7FLjqExFwSHmYCF6tee6WxI1tYoB7fVAMZAQNDCfnAgjnURT2zc3ZAZAcD0qfp5GWDqwZDZD
+```
+
 ## WA EVOLUTION
 ```
 EVOLUTION_API_KEY=myapikey
@@ -36,11 +50,6 @@ https://console.groq.com/keys
 Bearer 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
 ```
 
-
-## WA API TOKEN
-```
-EAAYXZAwSXsvgBSAFtjWFaNZAtX2UjHbpHI1E4upLyShB0WaBIDkGvIs1ygPlip8QneU8AxHNTrowIsQBn16G31ceIvppGQLZANQ5KwKeSEojIMMxXeH2RtARnpUwO5em7FLjqExFwSHmYCF6tee6WxI1tYoB7fVAMZAQNDCfnAgjnURT2zc3ZAZAcD0qfp5GWDqwZDZD
-```
 ## PIN WA REGISTER
 ```
 358558
