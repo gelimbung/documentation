@@ -85,6 +85,11 @@ Longitude
 110.42692138318723
 ```
 
+## Google Map Api Key
+```
+AIzaSyD886Z89Xhnrbm_5JYPMBzYRaq9RuJESEM
+```
+
 
 
 
