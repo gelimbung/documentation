@@ -67,7 +67,25 @@ https://partner.tiktokshop.com/
 u: gelimbung@gmail.com
 p: vps
 ```
-## API Keys:
+## AI API Keys:
+```
 - Odoo Chatbot API: f46c076fc034b7330958d54e154e657283d3bfc6
 - Groq API: (di Groq node, separate)
 ```
+
+## Biteship
+```
+API Key
+biteship_test.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoib2RvbzE4LWRldiIsInVzZXJJZCI6IjY1ZDE4NzY3NWM2ZjhjMDAxMjA1OTk5NSIsImlhdCI6MTc2NjIzMTg3OH0.A_ApAebhzMsJg5FnsQYNkPlVqKgpJNVwMXlFmjsUPQM
+
+Latitude
+-7.068101509120246
+
+Longitude
+110.42692138318723
+```
+
+
+
+
+
