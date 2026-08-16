@@ -98,6 +98,8 @@ docker exec db_postgres pg_dump -U odoo -Fc odoo18_prod_17 > /root/odoo18_prod_1
 docker exec odoo18-jumuah-erp   tar -C /var/lib/odoo/filestore   -czf /tmp/odoo18_prod_17_filestore.tar.gz   odoo18_prod_17
 docker cp   odoo18-jumuah-erp:/tmp/odoo18_prod_17_filestore.tar.gz   /root/odoo18_prod_17_filestore.tar.gz
 Successfully copied 157MB to /root/odoo18_prod_17_filestore.tar.gz
+3. remove tmp 
+docker exec odoo18-jumuah-erp rm -f /tmp/odoo18_prod_17_filestore.tar.gz
 
 
 
