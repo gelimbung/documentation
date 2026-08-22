@@ -99,7 +99,15 @@ docker exec odoo18-jumuah-erp   tar -C /var/lib/odoo/filestore   -czf /tmp/odoo1
 docker cp   odoo18-jumuah-erp:/tmp/odoo18_prod_17_filestore.tar.gz   /root/odoo18_prod_17_filestore.tar.gz
 3. remove tmp 
 docker exec odoo18-jumuah-erp rm -f /tmp/odoo18_prod_17_filestore.tar.gz
+```
+## PROMPT EX
+```
+Lanjutkan pekerjaan KakJumBOT V2 dari checkpoint repository.
 
+Baca `AGENTS.md`, `PROJECT_CONTEXT.md`, `CURRENT_TASK.md`, dan entri terbaru `docs/AI_CHANGELOG.md`. Ikuti langkah berikutnya pada CURRENT_TASK. Buka hanya spesifikasi, case, dan source file yang relevan. Jika ada perubahan Odoo, gunakan dokumentasi pada folder modul terkait di `addons-local-18`.
+
+Setelah selesai, jalankan test yang relevan dan perbarui checkpoint/dokumentasi sesuai aturan.
+```
 
 
 
